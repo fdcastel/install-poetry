@@ -31,6 +31,11 @@ if sys.version_info < (3, 6):  # noqa: UP036
     sys.stdout.write("Poetry installer requires Python 3.6 or newer to run!\n")
     sys.exit(1)
 
+# Creates a SSL context which ignores certificate validation -- https://stackoverflow.com/a/58337431
+import ssl
+ctx_no_ssl = ssl.create_default_context()
+ctx_no_ssl.check_hostname = False
+ctx_no_ssl.verify_mode = ssl.CERT_NONE
 
 import argparse
 import json
@@ -337,7 +342,7 @@ class VirtualEnvironment:
                 request = Request(
                     virtualenv_bootstrap_url, headers={"User-Agent": "Python Poetry"}
                 )
-                virtualenv_pyz.write_bytes(urlopen(request).read())
+                virtualenv_pyz.write_bytes(urlopen(request, context=ctx_no_ssl).read())
                 cls.run(
                     sys.executable, virtualenv_pyz, "--clear", "--always-copy", target
                 )
@@ -844,7 +849,7 @@ class Installer:
     def _get(self, url):
         request = Request(url, headers={"User-Agent": "Python Poetry"})
 
-        with closing(urlopen(request)) as r:
+        with closing(urlopen(request, context=ctx_no_ssl)) as r:
             return r.read()
 
 
