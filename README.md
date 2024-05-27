@@ -1,4 +1,6 @@
-# Python Poetry Installer (for Windows)
+# 🎂 Python Poetry Installer (for Windows) 🎂
+
+> **Anniversary Edition** Celebrating the first-year anniversary of [this](https://github.com/python-poetry/install.python-poetry.org/issues/112) issue. [🖖](https://en.wikipedia.org/wiki/Vulcan_salute)
 
 This repository is a clone of [Poetry's official installation script](https://github.com/python-poetry/install.python-poetry.org) modified to work on Windows because of Python SSL certificates hell.
 
